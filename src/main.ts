@@ -87,7 +87,7 @@ export default class ContextualVocabularyPlugin extends Plugin {
 
     let dictionaryPath: string;
     try {
-      dictionaryPath = validateDictionaryPath(this.settings.dictionaryPath);
+      dictionaryPath = validateDictionaryPath(this.settings.dictionaryPath, this.app.vault.configDir);
     } catch (error) {
       new Notice(errorMessage(error), 7000);
       return;
@@ -270,13 +270,14 @@ function cleanSelectedTerm(selection: string): string | null {
   return cleaned;
 }
 
-function validateDictionaryPath(value: string): string {
+function validateDictionaryPath(value: string, configDir: string): string {
   let path = normalizePath(value.trim() || DEFAULT_SETTINGS.dictionaryPath);
   if (!path.toLowerCase().endsWith(".md")) {
     path += ".md";
   }
-  if (path.startsWith(".obsidian/") || path === ".obsidian.md") {
-    throw new Error("Choose a dictionary note inside the vault, not inside .obsidian.");
+  const normalizedConfigDir = normalizePath(configDir).replace(/\/$/, "");
+  if (path === normalizedConfigDir || path.startsWith(`${normalizedConfigDir}/`)) {
+    throw new Error(`Choose a dictionary note outside the configuration folder (${normalizedConfigDir}).`);
   }
   return path;
 }
@@ -309,7 +310,7 @@ function extractContainingSentence(document: string, start: number, end: number)
 function cleanContext(value: string): string {
   return value
     .replace(/^\s{0,3}(?:>|[-*+] |\d+[.)] )+/gm, "")
-    .replace(/!?(\[([^\]]+)\])\([^\)]+\)/g, "$2")
+    .replace(/!?(\[([^\]]+)\])\([^)]+\)/g, "$2")
     .replace(/\[\[([^\]|#]+)(?:#[^\]|]+)?(?:\|([^\]]+))?\]\]/g, (_match, target: string, alias?: string) => alias ?? target)
     .replace(/[`*_~]/g, "")
     .replace(/\s+/g, " ")
@@ -538,7 +539,7 @@ function escapeWiki(value: string): string {
 }
 
 function escapeMarkdown(value: string): string {
-  return value.replace(/([\\`*_{}\[\]<>])/g, "\\$1");
+  return value.replace(/([\\`*_{}[\]<>])/g, "\\$1");
 }
 
 function escapeBlockquote(value: string): string {

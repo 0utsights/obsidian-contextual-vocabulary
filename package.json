@@ -1,6 +1,6 @@
 {
   "name": "contextual-vocabulary",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An Obsidian plugin for building an AI-assisted contextual dictionary.",
   "main": "main.js",
   "scripts": {
