@@ -1,0 +1,10 @@
+{
+  "id": "contextual-vocabulary",
+  "name": "Contextual Vocabulary",
+  "version": "1.0.0",
+  "minAppVersion": "1.5.0",
+  "description": "Define a selected word with AI, link it in place, and maintain a navigable dictionary note.",
+  "author": "John Surles",
+  "authorUrl": "https://github.com/0utsights",
+  "isDesktopOnly": false
+}

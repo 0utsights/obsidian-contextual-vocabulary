@@ -1,0 +1,17 @@
+.contextual-vocabulary-dictionary .contextual-vocabulary-index {
+  line-height: 1.8;
+}
+
+.contextual-vocabulary-dictionary h2:not(:first-of-type) {
+  margin-top: 2.25rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.contextual-vocabulary-dictionary blockquote {
+  border-inline-start-color: var(--interactive-accent);
+}
+
+.contextual-vocabulary-dictionary hr {
+  margin: 2rem 0;
+}
